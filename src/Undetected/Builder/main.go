@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bytixo/PirateStealer/Builder/logger"
+	"github.com/StampyGumball/pirate-stealer-by-bytixo/tree/main/src/Undetected/Builder/logger"
 )
 
 var (

