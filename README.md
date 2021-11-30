@@ -1,5 +1,8 @@
 #### ⚠️ Proof Of Concept && Educational Purpose Only ⚠️
 
+##### INSTRUCTIONS IN src/undetected/builder/readme.md 
+
+
 ## Table of Content
 - [Read This](https://github.com/bytixo/PirateStealer#read-this-please)
 - [Support Server](https://github.com/bytixo/PirateStealer#need-support-)
