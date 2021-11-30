@@ -1,4 +1,4 @@
-module github.com/bytixo/PirateStealer/Builder
+module github.com/StampyGumball/pirate-stealer-by-bytixo/tree/main/src/Undetected/Builder
 
 go 1.17
 
